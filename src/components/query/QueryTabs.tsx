@@ -124,7 +124,7 @@ export function QueryTabs({
   };
 
   return (
-    <div className="flex items-center gap-1 border-b border-neutral-200 bg-neutral-50 px-2 dark:border-neutral-800 dark:bg-neutral-900">
+    <div className="flex items-center gap-1 rounded-t-lg border-b border-neutral-200 bg-neutral-50 px-2 dark:border-neutral-800 dark:bg-neutral-900">
       <div className="flex flex-1 items-center overflow-x-auto py-2">
         {tabs.map((tab, index) => {
           const isActive = tab.id === activeTabId;
