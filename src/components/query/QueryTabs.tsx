@@ -124,8 +124,8 @@ export function QueryTabs({
   };
 
   return (
-    <div className="flex items-center gap-1 rounded-t-lg border-b border-neutral-200 bg-neutral-50 px-2 dark:border-neutral-800 dark:bg-neutral-900">
-      <div className="flex flex-1 items-center overflow-x-auto py-2">
+    <div className="flex items-center gap-1 rounded-lg border border-neutral-200 bg-neutral-50 px-2 dark:border-neutral-800 dark:bg-neutral-900">
+      <div className="flex flex-1 items-center gap-1 overflow-x-auto py-2">
         {tabs.map((tab, index) => {
           const isActive = tab.id === activeTabId;
           const isEditing = tab.id === editingTabId;
@@ -151,7 +151,7 @@ export function QueryTabs({
                 onDrop={(e) => handleDrop(e, index)}
                 onDragEnd={handleDragEnd}
                 className={cn(
-                  'group relative flex items-center gap-1 rounded-t-md px-2 py-1.5 text-sm font-medium transition-colors',
+                  'group relative flex items-center gap-1 rounded-md px-2 py-1.5 text-sm font-medium transition-colors',
                   'cursor-grab select-none',
                   isDragging && 'opacity-50',
                   isActive

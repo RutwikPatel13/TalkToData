@@ -14,6 +14,7 @@ interface ConnectionState_t {
 
 interface ConnectionContextValue_t extends ConnectionState_t {
   connect: (config: ConnectionConfig_t) => Promise<boolean>;
+  connectDemo: () => Promise<boolean>;
   disconnect: () => Promise<void>;
   refreshSchema: () => Promise<void>;
 }
@@ -113,6 +114,56 @@ export function ConnectionProvider({ children }: { children: React.ReactNode }) 
     []
   );
 
+  const connectDemo = React.useCallback(async (): Promise<boolean> => {
+    setState((prev) => ({ ...prev, status: 'connecting', error: null }));
+
+    try {
+      const response = await fetch('/api/demo-connect', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        setState((prev) => ({
+          ...prev,
+          status: 'error',
+          error: data.error?.message || 'Failed to connect to demo database',
+        }));
+        return false;
+      }
+
+      // Fetch schema after successful connection
+      const schemaResponse = await fetch(API_ENDPOINTS.SCHEMA);
+      const schemaData = await schemaResponse.json();
+
+      setState({
+        status: 'connected',
+        config: {
+          type: 'postgresql',
+          database: data.data.databaseName,
+          host: '',
+          port: 0,
+          username: '',
+          password: '',
+        },
+        schema: schemaData.success ? schemaData.data : null,
+        error: null,
+        isRestoring: false,
+      });
+
+      return true;
+    } catch (error) {
+      setState((prev) => ({
+        ...prev,
+        status: 'error',
+        error: error instanceof Error ? error.message : 'Connection failed',
+      }));
+      return false;
+    }
+  }, []);
+
   const disconnect = React.useCallback(async (): Promise<void> => {
     try {
       await fetch(API_ENDPOINTS.CONNECT, { method: 'DELETE' });
@@ -147,10 +198,11 @@ export function ConnectionProvider({ children }: { children: React.ReactNode }) 
     () => ({
       ...state,
       connect,
+      connectDemo,
       disconnect,
       refreshSchema,
     }),
-    [state, connect, disconnect, refreshSchema]
+    [state, connect, connectDemo, disconnect, refreshSchema]
   );
 
   return (

@@ -5,6 +5,7 @@
 // Error codes using discriminated union pattern
 export type ErrorCode_t =
   | 'CONNECTION_FAILED'
+  | 'CONFIG_ERROR'
   | 'QUERY_TIMEOUT'
   | 'INVALID_SQL'
   | 'DANGEROUS_QUERY'

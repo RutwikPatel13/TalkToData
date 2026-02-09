@@ -20,18 +20,8 @@ interface ConnectionModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-// Demo database credentials (Supabase test database)
-const DEMO_DATABASE = {
-  host: 'aws-1-us-east-1.pooler.supabase.com',
-  port: '6543',
-  database: 'postgres',
-  username: 'postgres.emyjzgnykdsoxyqnyiwg',
-  password: 'CvfftdK0Xxr0nA9I',
-  ssl: true, // Supabase requires SSL for external connections
-};
-
 export function ConnectionModal({ open, onOpenChange }: ConnectionModalProps) {
-  const { connect, status } = useConnection();
+  const { connect, connectDemo, status } = useConnection();
   const { toast } = useToast();
 
   const [selectedType, setSelectedType] = React.useState<DatabaseType_t>('postgresql');
@@ -58,19 +48,8 @@ export function ConnectionModal({ open, onOpenChange }: ConnectionModalProps) {
 
   const handleUseDemoDatabase = async () => {
     setIsConnectingDemo(true);
-    setFormData(DEMO_DATABASE);
 
-    const success = await connect({
-      type: 'postgresql',
-      host: DEMO_DATABASE.host,
-      port: parseInt(DEMO_DATABASE.port, 10),
-      database: DEMO_DATABASE.database,
-      username: DEMO_DATABASE.username,
-      password: DEMO_DATABASE.password,
-      ssl: DEMO_DATABASE.ssl,
-    });
-
-    setIsConnectingDemo(false);
+    const success = await connectDemo();
 
     if (success) {
       toast({
@@ -86,6 +65,8 @@ export function ConnectionModal({ open, onOpenChange }: ConnectionModalProps) {
         type: 'error',
       });
     }
+
+    setIsConnectingDemo(false);
   };
 
   const isConnecting = status === 'connecting';
