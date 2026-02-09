@@ -22,7 +22,7 @@ interface ConnectionModalProps {
 
 // Demo database credentials (Supabase test database)
 const DEMO_DATABASE = {
-  host: 'aws-0-us-east-1.pooler.supabase.com',
+  host: 'aws-1-us-east-1.pooler.supabase.com',
   port: '6543',
   database: 'postgres',
   username: 'postgres.emyjzgnykdsoxyqnyiwg',
