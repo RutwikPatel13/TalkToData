@@ -22,12 +22,12 @@ interface ConnectionModalProps {
 
 // Demo database credentials (Supabase test database)
 const DEMO_DATABASE = {
-  host: 'aws-1-us-east-1.pooler.supabase.com',
+  host: 'aws-0-us-east-1.pooler.supabase.com',
   port: '6543',
   database: 'postgres',
   username: 'postgres.emyjzgnykdsoxyqnyiwg',
   password: 'CvfftdK0Xxr0nA9I',
-  ssl: false,
+  ssl: true, // Supabase requires SSL for external connections
 };
 
 export function ConnectionModal({ open, onOpenChange }: ConnectionModalProps) {
