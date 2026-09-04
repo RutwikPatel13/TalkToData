@@ -23,7 +23,7 @@ export const ANIMATION_DURATION_NORMAL_MS = 225;
 export const ANIMATION_DURATION_SLOW_MS = 300;
 
 // LLM Configuration
-export const LLM_MODEL_DEFAULT = 'llama-3.3-70b-versatile';
+export const LLM_MODEL_DEFAULT = 'qwen/qwen3.8-27b';
 export const LLM_MAX_TOKENS = 2048;
 export const LLM_TEMPERATURE = 0.1; // Low temperature for consistent SQL generation
 

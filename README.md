@@ -51,7 +51,7 @@ Click "Try Demo Database" to connect to a sample PostgreSQL database and start q
 | **SQL Editor** | Monaco Editor |
 | **Data Tables** | TanStack Table |
 | **Charts** | Recharts |
-| **AI/LLM** | Groq API (Llama 3) |
+| **AI/LLM** | Groq API (Qwen3.8 27B) |
 | **Session** | Iron Session (encrypted cookies) |
 | **Validation** | Zod |
 | **Deployment** | Vercel |
