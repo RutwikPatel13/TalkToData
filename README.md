@@ -2,6 +2,8 @@
 
 A modern, AI-powered SQL query interface that lets you talk to your databases using natural language. Built with Next.js 16, React 19, and powered by Groq's LLM API.
 
+https://github.com/user-attachments/assets/f784a504-79f5-4ad8-9d01-be8b54279dfb
+
 ![TalkToData](https://img.shields.io/badge/Next.js-16.1.6-black?style=flat-square&logo=next.js)
 ![React](https://img.shields.io/badge/React-19.2.3-blue?style=flat-square&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square&logo=typescript)
