@@ -38,7 +38,7 @@ https://github.com/user-attachments/assets/f784a504-79f5-4ad8-9d01-be8b54279dfb
 
 ## 🚀 Live Demo
 
-Try it now: **[talktodata.vercel.app](https://talktodata.vercel.app)**
+Try it now: **[talktodata.rutwik.dev](https://talktodata.rutwik.dev)**
 
 Click "Try Demo Database" to connect to a sample PostgreSQL database and start querying!
 
