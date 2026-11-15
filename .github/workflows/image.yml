@@ -1,0 +1,49 @@
+# Builds the image the home Pi runs and pushes it to ghcr.io. The Pi never
+# builds: it has an SD card and shares its CPU with the flat's DNS, so it only
+# pulls what this produces.
+#
+# This stops at the push. Getting the Pi to pull the new image is a separate
+# step, because nothing on the internet can open a connection to the Pi.
+
+name: Build image
+
+on:
+  push:
+    branches: [main]
+  # Lets a build be started by hand, to rebuild without a new commit.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  image:
+    # A native arm64 runner: the Pi is arm64, and emulating it on x86 makes the
+    # Next build several times slower.
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: docker/setup-buildx-action@v4
+
+      # The built-in token is enough to push to this repository's own package,
+      # so there is no long-lived registry secret to store or rotate.
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: linux/arm64
+          push: true
+          # `latest` is what the Pi pulls by default. The commit tag is the
+          # rollback: point the Pi's TALKTODATA_TAG at the last good commit.
+          tags: |
+            ghcr.io/rutwikpatel13/talktodata:latest
+            ghcr.io/rutwikpatel13/talktodata:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
