@@ -40,6 +40,11 @@ LABEL org.opencontainers.image.source="https://github.com/RutwikPatel13/TalkToDa
 COPY --from=build --chown=node:node /app/public ./public
 COPY --from=build --chown=node:node /app/.next/standalone ./
 COPY --from=build --chown=node:node /app/.next/static ./.next/static
+# The commit this image was built from, so /api/health can say what is
+# running. It comes last because it changes on every build: anything after it
+# could never be reused from the layer cache.
+ARG GIT_SHA=unknown
+ENV GIT_SHA=$GIT_SHA
 # This app opens connections to hosts a visitor names, so it should hold as
 # little privilege as possible inside the container.
 USER node

@@ -40,6 +40,10 @@ jobs:
           context: .
           platforms: linux/arm64
           push: true
+          # Read back by /api/health, so the status page can compare what the
+          # Pi runs with what is on main.
+          build-args: |
+            GIT_SHA=${{ github.sha }}
           # `latest` is what the Pi pulls by default. The commit tag is the
           # rollback: point the Pi's TALKTODATA_TAG at the last good commit.
           tags: |
