@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1
 
-# The image that runs TalkToData on the home Pi (linux/arm64). It is built by
-# GitHub Actions and only ever pulled on the Pi, so nothing here should assume
+# The image that runs TalkToData on the home server (linux/amd64). It is built by
+# GitHub Actions and only ever pulled on the server, so nothing here should assume
 # build tools exist at run time.
 #
 # Debian slim rather than Alpine: better-sqlite3 ships a prebuilt glibc binary
-# for arm64, so `npm ci` downloads it instead of compiling. On Alpine it would
+# for amd64 and arm64, so `npm ci` downloads it instead of compiling. On Alpine it would
 # need python, make and g++ in the image just to install.
 
 FROM node:22-bookworm-slim AS deps

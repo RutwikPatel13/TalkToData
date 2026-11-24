@@ -40,7 +40,9 @@ export async function POST(): Promise<NextResponse<ApiResponse_t<ConnectResponse
       database,
       username,
       password,
-      ssl: true, // Supabase requires SSL
+      // The demo database sits beside the app on the server's private Docker
+      // network, where there is nothing for TLS to protect; it doesn't offer it.
+      ssl: false,
     };
 
     // Create adapter and connect

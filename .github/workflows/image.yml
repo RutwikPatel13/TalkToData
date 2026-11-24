@@ -1,9 +1,8 @@
-# Builds the image the home Pi runs and pushes it to ghcr.io. The Pi never
-# builds: it has an SD card and shares its CPU with the flat's DNS, so it only
-# pulls what this produces.
+# Builds the image the home server (the Mac mini, linux/amd64) runs and pushes
+# it to ghcr.io. The server never builds; it only pulls what this produces.
 #
-# This stops at the push. Getting the Pi to pull the new image is a separate
-# step, because nothing on the internet can open a connection to the Pi.
+# This stops at the push. The server's auto-update job pulls `latest` every
+# 5 minutes, because nothing on the internet can open a connection to it.
 
 name: Build image
 
@@ -19,9 +18,9 @@ permissions:
 
 jobs:
   image:
-    # A native arm64 runner: the Pi is arm64, and emulating it on x86 makes the
-    # Next build several times slower.
-    runs-on: ubuntu-24.04-arm
+    # A native x86 runner: the Mac mini is amd64. (It moved off the arm64 Pi
+    # on 2026-11-24.)
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
 
@@ -38,14 +37,14 @@ jobs:
       - uses: docker/build-push-action@v7
         with:
           context: .
-          platforms: linux/arm64
+          platforms: linux/amd64
           push: true
           # Read back by /api/health, so the status page can compare what the
-          # Pi runs with what is on main.
+          # server runs with what is on main.
           build-args: |
             GIT_SHA=${{ github.sha }}
-          # `latest` is what the Pi pulls by default. The commit tag is the
-          # rollback: point the Pi's TALKTODATA_TAG at the last good commit.
+          # `latest` is what the server pulls by default. The commit tag is the
+          # rollback: point the server's TALKTODATA_TAG at the last good commit.
           tags: |
             ghcr.io/rutwikpatel13/talktodata:latest
             ghcr.io/rutwikpatel13/talktodata:${{ github.sha }}
